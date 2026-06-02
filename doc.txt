@@ -1,0 +1,132 @@
+chce stworzyc interaktywną grę w przeglądarce, gdzie przypisuje się nazwy rzek na podstawie wycinka mapy Polski.
+
+Założenia:
+- standalone app, całość zamknięta np w jednym pliku html
+- łądny, spójny, współczesny wygląd
+- rzeczywiste odwzorowanie topografii Polski
+
+- Działanie
+- po kliknięciu start, aplikacja losuje fragment Polski
+- na mapie pokazuje bieg rzek + nazwy pobliskich miast, miejscowości - nie pokazując nazw rzek
+- aplikacja zaznacza fragment/odcinek rzeki jakiego nazwę trzeba wskazać
+- przy wskazym fragmencie lub gdzies w interfejsie użytkownik wpisuje nazwę (ignoruj małe/duże litery)
+- w ustawieniach można zmienić czas aki uczestnik ma na wpisanie odpowiedzi oraz ilość błędnych prób zanim przejdzie dalej
+- np jedna gra to 10 rzek
+
+Stwórz prototyp który mogę przetestować
+
+Pokaż więcej
+poniedziałek, 15:54
+
+Zrobię to jako jeden samodzielny HTML z prawdziwymi danymi mapowymi ładowanymi z publicznych źródeł CDN, a w logice zostawię fallback, żeby prototyp nie był pusty, gdy któryś endpoint akurat odmówi. Najpierw sprawdzam, co mamy w katalogu i czy nie ma już struktury projektu, którą warto uszanować.
+
+Katalog jest pusty, więc mogę zbudować prototyp bez ryzyka nadpisania Twoich plików. Składam teraz pojedynczy index.html: Leaflet do mapy, kafle cieniowania terenu bez etykiet rzek, dane rzek i miejscowości pobierane na żywo z Overpass, plus awaryjny zestaw odcinków dla najważniejszych rzek.
+
+Wybrałem podejście odporne na prototypowe warunki: mapa korzysta z prawdziwego cieniowania terenu i własnej warstwy rzek bez etykiet, a miejscowości są etykietami nałożonymi przez aplikację. Dzięki temu użytkownik nie dostaje nazwy rzeki z kafla mapowego “za darmo”.
+
+
+
+poniedziałek, 15:55
+jeszcze jedno - mapę pobierz raz aby aplikacja nie wymagała połączenia z internetem, musi być zapakowana do aplikacji
+poniedziałek, 15:56
+
+poza tym myślę aby skala mapek była zamrożona, tj zawsze mapa pokazuje ten sam rozmiar (w ustawieniach może do zmiany?)
+poniedziałek, 15:58
+
+
+Pracował przez 7m 52s
+Gotowe: prototyp jest w jednym pliku index.html.
+
+Działa offline: nie ma CDN, kafli, fetch() ani zewnętrznych zasobów. W pliku są wbudowane uproszczone dane rzek, miejscowości i obrysu Polski, a mapa jest renderowana jako SVG. Dodałem też stałą skalę wycinka z ustawieniem: mały / średni / duży.
+
+Możesz testować tutaj: http://127.0.0.1:8765/index.html
+
+Sprawdzone:
+
+start losuje rundę,
+mapa pokazuje miejscowości i rzeki bez nazw rzek,
+wskazany odcinek jest wyróżniony,
+odpowiedź ignoruje wielkość liter i polskie znaki,
+działa timer, limit prób, pomijanie i historia rundy,
+brak błędów w konsoli.
+Uwaga praktyczna: to jest prototyp z ręcznie wbudowanymi, uproszczonymi geometriami. Następny sensowny krok to podmienić dane na dokładniejszy eksport OSM/GIS, nadal zapakowany do tego samego HTML-a.
+
+
+Rzeki Polski - prototyp gry
+Witryna
+Otwórz
+Zmieniono 1 plik
+Cofnij
+
+Zrecenzuj
+
+index.html
+
+
+
+
+poniedziałek, 16:06
+a bardziej szczegolowa mapa tych rzek? i obraz jednak oddal troche bardziej, to zbyt blisko
+poniedziałek, 16:18
+
+
+Pracował przez 1m 12s
+Zrobione w index.html.
+
+Zmieniłem dwie rzeczy:
+
+mapa jest domyślnie bardziej oddalona: teraz standardowy wycinek ma ok. 210 km zamiast 135 km,
+rzeki są bardziej szczegółowe wizualnie: mają gęstszy, lekko meandrujący przebieg i doszły cieńsze rzeki kontekstowe, żeby wycinek wyglądał bardziej mapowo.
+Ustawienia skali są teraz:
+
+blisko, ok. 145 km,
+standard, ok. 210 km,
+szeroko, ok. 295 km.
+Sprawdziłem w przeglądarce: po starcie widok jest wyraźnie bardziej czytelny i mniej przyklejony do jednego odcinka. Możesz odświeżyć: http://127.0.0.1:8765/index.html
+
+
+Rzeki Polski - prototyp gry
+Witryna
+Otwórz
+Zmieniono 1 plik
+Cofnij
+
+Zrecenzuj
+
+index.html
+
+
+
+
+poniedziałek, 16:19
+zró najłatwiejszy tryb to całą polska, potem coraz mneijsze kwadraty
+poniedziałek, 16:25
+
+
+Pracował przez 1m 10s
+Zrobione. W index.html tryb mapy działa teraz jako poziom trudności:
+
+najłatwiej, cała Polska
+łatwo, kwadrat 320 km
+średnio, kwadrat 230 km
+trudno, kwadrat 155 km
+ekspert, kwadrat 105 km
+Domyślnie startuje teraz od całej Polski. Dla pozostałych trybów aplikacja pokazuje coraz mniejsze kwadratowe wycinki wokół wskazanego odcinka rzeki.
+
+Odświeżyłem i sprawdziłem w przeglądarce pod http://127.0.0.1:8765/index.html.
+
+
+Rzeki Polski - prototyp gry
+Witryna
+Otwórz
+Zmieniono 1 plik
+Cofnij
+
+Zrecenzuj
+
+index.html
+
+
+
+
+poniedziałek, 16:26
